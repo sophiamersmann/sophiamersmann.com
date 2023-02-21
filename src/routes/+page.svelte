@@ -24,10 +24,10 @@
 	<h1>Hi!</h1>
 
 	<p>
-		This blog is a living document. It started out with the <a
+		This website is a living document. It started out with the <a
 			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
 			rel="noreferrer">bare minimum</a
-		> and I'll add to it whenever I feel like doing so — just for the joy of it and
+		> and I add to it whenever I feel like doing so — just for the joy of it and
 		without an end product in mind.
 	</p>
 

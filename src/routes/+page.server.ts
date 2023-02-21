@@ -8,6 +8,7 @@ export type Commit = {
 	shaShort: string;
 	url: string;
 	message: string;
+	date: Date;
 };
 
 async function fetchGitCommits({
@@ -61,6 +62,7 @@ export const load = (async () => {
 					shaShort: c.sha.slice(0, 7),
 					url: c.html_url,
 					message,
+					date: new Date(c.commit.author.date),
 				});
 			}
 		}

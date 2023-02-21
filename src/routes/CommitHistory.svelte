@@ -2,6 +2,13 @@
 	import type { Commit } from './+page.server';
 
 	export let commits: Commit[];
+
+	function formatDate(date: Date) {
+		return [
+			date.getFullYear(),
+			(date.getMonth() + 1).toString().padStart(2, '0'),
+		].join('-');
+	}
 </script>
 
 <details>
@@ -10,7 +17,7 @@
 		<ol reversed>
 			{#each commits as commit}
 				<li>
-					{commit.message}
+					[{formatDate(commit.date)}] {commit.message}
 					(<a href={commit.url} target="_blank" rel="noreferrer"
 						>{commit.shaShort}</a
 					>)
@@ -25,5 +32,9 @@
 <style>
 	details {
 		margin-top: 2em;
+	}
+
+	ol {
+		list-style: none;
 	}
 </style>
