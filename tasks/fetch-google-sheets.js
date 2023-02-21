@@ -6,6 +6,7 @@
  */
 
 import fs from 'fs';
+import path from 'path';
 
 import cfg from '../google-sheets.config.js';
 
@@ -36,6 +37,10 @@ async function main() {
 		try {
 			const content = await fetchGoogleSheet(c);
 			const file = `${cwd}/${c.filepath}`;
+
+			// create folder if it doesn't exist
+			fs.mkdirSync(path.dirname(file), { recursive: true });
+
 			fs.writeFileSync(file, content);
 		} catch (err) {
 			console.log(err);
