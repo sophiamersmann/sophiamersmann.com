@@ -1,0 +1,46 @@
+@import './reset.css';
+@import './variables.css';
+
+body {
+	line-height: 1.5;
+	overflow-x: hidden;
+	padding: 0px var(--size-px-100) var(--size-px-600) var(--size-px-100);
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.2;
+}
+
+h1 {
+	font-size: var(--size-rem-700);
+	margin-top: 0.5em;
+	margin-bottom: 0.5em;
+}
+
+h2,
+h3 {
+	font-size: var(--size-rem-600);
+	margin-top: 2em;
+	margin-bottom: 0.5em;
+}
+
+a {
+	color: currentColor;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+th {
+	text-align: left;
+}
+
+:focus {
+	outline: 2px dotted;
+	outline-offset: 0.1rem;
+}

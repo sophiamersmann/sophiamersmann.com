@@ -1,0 +1,22 @@
+:root {
+	--base-size: 1rem;
+	--base-size-px: 16px;
+
+	/* major third scale (rem) */
+	--size-rem-100: calc(var(--base-size) * 0.512);
+	--size-rem-200: calc(var(--base-size) * 0.64);
+	--size-rem-300: calc(var(--base-size) * 0.8);
+	--size-rem-400: var(--base-size);
+	--size-rem-500: calc(var(--base-size) * 1.33);
+	--size-rem-600: calc(var(--base-size) * 1.77);
+	--size-rem-700: calc(var(--base-size) * 2.4);
+
+	/* major third scale (px) */
+	--size-px-100: calc(var(--base-size-px) * 0.512);
+	--size-px-200: calc(var(--base-size-px) * 0.64);
+	--size-px-300: calc(var(--base-size-px) * 0.8);
+	--size-px-400: var(--base-size-px);
+	--size-px-500: calc(var(--base-size-px) * 1.33);
+	--size-px-600: calc(var(--base-size-px) * 1.77);
+	--size-px-700: calc(var(--base-size-px) * 2.4);
+}
