@@ -28,6 +28,11 @@ h3 {
 	margin-bottom: 0.5em;
 }
 
+p {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
 a {
 	color: currentColor;
 }

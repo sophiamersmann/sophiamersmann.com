@@ -31,7 +31,7 @@
 
 <style>
 	details {
-		margin-top: 2em;
+		margin-top: 0.5em;
 	}
 
 	ol {

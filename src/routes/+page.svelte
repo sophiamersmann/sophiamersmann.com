@@ -23,7 +23,9 @@
 <main>
 	<h1>Hi!</h1>
 
-	<p>
+	<p>This is my corner of the internet.</p>
+
+	<p style:margin-top="1.5em">
 		This website is a living document. It started out with the <a
 			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
 			rel="noreferrer">bare minimum</a
