@@ -11,3 +11,4 @@ vite.config.ts.timestamp-*
 
 # don't store data in version control
 src/data
+.vercel
