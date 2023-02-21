@@ -32,6 +32,14 @@ a {
 	color: currentColor;
 }
 
+li {
+	line-height: 1.35;
+}
+
+li + li {
+	margin-top: 0.25em;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -40,7 +48,13 @@ th {
 	text-align: left;
 }
 
-:focus {
+:focus,
+:focus-visible {
 	outline: 2px dotted;
 	outline-offset: 0.1rem;
+}
+
+/* hide focus ring when it's not supposed to be visible */
+:focus:not(:focus-visible) {
+	outline: none;
 }

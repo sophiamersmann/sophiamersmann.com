@@ -3,6 +3,8 @@
 
 	import type { PageServerData } from './$types';
 
+	import CommitHistory from './CommitHistory.svelte';
+
 	export let data: PageServerData;
 
 	// group projects by category and sort by date
@@ -20,8 +22,20 @@
 
 <main>
 	<h1>Hi!</h1>
-	<p>This is my corner of the internet.</p>
 
+	<p>
+		This blog is a living document. It started out with the <a
+			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
+			rel="noreferrer">bare minimum</a
+		> and I'll add to it whenever I feel like doing so — just for the joy of it and
+		without an end product in mind.
+	</p>
+
+	{#if data.commits.length > 0}
+		<CommitHistory commits={data.commits} />
+	{/if}
+
+	<!-- list of projects, grouped by category -->
 	{#each projectsByCategory as [category, projects] (category)}
 		<section>
 			<h2>
@@ -52,13 +66,5 @@
 <style>
 	h2 {
 		font-size: var(--size-rem-500);
-	}
-
-	li {
-		line-height: 1.35;
-	}
-
-	li + li {
-		margin-top: 0.25em;
 	}
 </style>
