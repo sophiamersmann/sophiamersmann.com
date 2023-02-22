@@ -15,12 +15,23 @@
 	<summary> See what has happened so far </summary>
 	{#if commits.length > 0}
 		<ol reversed>
-			{#each commits as commit}
+			{#each commits as commit, i}
 				<li>
-					[{formatDate(commit.date)}] {commit.message}
-					(<a href={commit.url} target="_blank" rel="noreferrer"
+					[{formatDate(commit.date)}]
+					{#if commit.url}
+						<a href={commit.url} target="_blank" rel="noreferrer"
+							>{commit.message}</a
+						>
+					{:else}
+						{commit.message}
+					{/if}
+					(<a href={commit.githubUrl} target="_blank" rel="noreferrer"
 						>{commit.shaShort}</a
 					>)
+
+					{#if i === 0}
+						<span class="annotation">← you're here</span>
+					{/if}
 				</li>
 			{/each}
 		</ol>
@@ -36,5 +47,9 @@
 
 	ol {
 		list-style: none;
+	}
+
+	.annotation {
+		margin-left: 0.5em;
 	}
 </style>
