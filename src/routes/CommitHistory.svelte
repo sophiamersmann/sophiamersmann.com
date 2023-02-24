@@ -19,9 +19,7 @@
 				<li>
 					[{formatDate(commit.date)}]
 					{#if commit.url}
-						<a href={commit.url} target="_blank" rel="noreferrer"
-							>{commit.message}</a
-						>
+						<a href={commit.url} rel="noreferrer">{commit.message}</a>
 					{:else}
 						{commit.message}
 					{/if}
