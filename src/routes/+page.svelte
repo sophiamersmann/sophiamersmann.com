@@ -64,9 +64,3 @@
 		</section>
 	{/each}
 </main>
-
-<style>
-	h2 {
-		font-size: var(--size-rem-500);
-	}
-</style>
