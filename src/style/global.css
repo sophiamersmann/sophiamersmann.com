@@ -1,10 +1,13 @@
 @import './reset.css';
+@import './fonts.css';
 @import './variables.css';
 
 body {
+	font-family: var(--text-font);
+	font-size: var(--fluid-step--1);
 	line-height: 1.5;
 	overflow-x: hidden;
-	padding: 0px var(--size-px-100) var(--size-px-600) var(--size-px-100);
+	padding: 0px var(--size-px-200) var(--size-px-600) var(--size-px-200);
 	max-width: 800px;
 	margin: 0 auto;
 }
@@ -12,20 +15,20 @@ body {
 h1,
 h2,
 h3 {
+	font-family: var(--display-font);
 	line-height: 1.2;
+	margin-top: 2em;
+	margin-bottom: 0.5em;
 }
 
 h1 {
-	font-size: var(--size-rem-700);
-	margin-top: 0.5em;
-	margin-bottom: 0.5em;
+	font-size: var(--fluid-step-3);
+	margin-top: 1em;
 }
 
 h2,
 h3 {
-	font-size: var(--size-rem-600);
-	margin-top: 2em;
-	margin-bottom: 0.5em;
+	font-size: var(--fluid-step-1);
 }
 
 p {
@@ -37,12 +40,8 @@ a {
 	color: currentColor;
 }
 
-li {
-	line-height: 1.35;
-}
-
 li + li {
-	margin-top: 0.25em;
+	margin-top: 0.5em;
 }
 
 table {

@@ -21,7 +21,7 @@
 </script>
 
 <main>
-	<h1>Hi!</h1>
+	<h1>Sophia Mersmann</h1>
 
 	<p>This is my corner of the internet.</p>
 
@@ -64,9 +64,3 @@
 		</section>
 	{/each}
 </main>
-
-<style>
-	h2 {
-		font-size: var(--size-rem-500);
-	}
-</style>
