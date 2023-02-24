@@ -20,12 +20,12 @@
 	);
 </script>
 
-<main>
+<main class="flow">
 	<h1>Sophia Mersmann</h1>
 
 	<p>This is my corner of the internet.</p>
 
-	<p style:margin-top="1.5em">
+	<p>
 		This website is a living document. It started out with the <a
 			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
 			rel="noreferrer">bare minimum</a
@@ -64,3 +64,9 @@
 		</section>
 	{/each}
 </main>
+
+<style>
+	main {
+		--flow-space: 1.5em;
+	}
+</style>

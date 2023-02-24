@@ -2,6 +2,9 @@
 @import './fonts.css';
 @import './variables.css';
 
+/* utilities */
+@import './utilities/flow.css';
+
 body {
 	font-family: var(--text-font);
 	font-size: var(--fluid-step--1);
