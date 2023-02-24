@@ -41,6 +41,7 @@
 <style>
 	summary {
 		font-weight: var(--font-weight-semibold);
+		-webkit-tap-highlight-color: rgba(0, 0, 0, 0); /* prevents flash on touch */
 	}
 
 	details {
