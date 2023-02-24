@@ -41,6 +41,10 @@
 </details>
 
 <style>
+	summary {
+		font-weight: var(--font-weight-semibold);
+	}
+
 	details {
 		margin-top: 0.5em;
 	}
@@ -51,5 +55,6 @@
 
 	.annotation {
 		margin-left: 0.5em;
+		font-style: italic;
 	}
 </style>
