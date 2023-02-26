@@ -4,6 +4,7 @@
 	import type { PageServerData } from './$types';
 
 	import CommitHistory from './CommitHistory.svelte';
+	import Heading from './Heading.svelte';
 
 	export let data: PageServerData;
 
@@ -20,10 +21,18 @@
 	);
 </script>
 
-<main class="flow">
-	<h1>Sophia Mersmann</h1>
-
-	<p>This is my corner of the internet.</p>
+<main>
+	<hgroup>
+		<Heading level={1}>Sophia Mersmann</Heading>
+		<p>
+			<a href="https://github.com/sophiamersmann">
+				<img src="github.svg" alt="GitHUb" />
+			</a>
+			<a href="https://twitter.com/sophiamersmann">
+				<img src="twitter.svg" alt="Twitter" />
+			</a>
+		</p>
+	</hgroup>
 
 	<p>
 		This website is a living document. It started out with the <a
@@ -37,36 +46,93 @@
 		<CommitHistory commits={data.commits} />
 	{/if}
 
-	<!-- list of projects, grouped by category -->
-	{#each projectsByCategory as [category, projects] (category)}
-		<section>
-			<h2>
-				{#if category}
-					{category}:
-				{:else}
-					No category:
-				{/if}
-			</h2>
-			<ul>
-				{#each projects as project}
-					<li>
-						<div>
-							<a href={project.url} target="_blank" rel="noreferrer"
-								>{project.title}</a
-							>
-							{#if project.tagLine}
-								— <i>{project.tagLine}</i>
-							{/if}
-						</div>
-					</li>
-				{/each}
-			</ul>
-		</section>
-	{/each}
+	<section>
+		<Heading>Previous Work</Heading>
+
+		<!-- list of projects, grouped by category -->
+		{#each projectsByCategory as [category, projects] (category)}
+			<div class="section">
+				<h3>
+					{#if category}
+						{category}
+					{:else}
+						Everything else
+					{/if}
+				</h3>
+				<ul>
+					{#each projects as project}
+						<li>
+							<div>
+								<a href={project.url} target="_blank" rel="noreferrer">
+									{project.title}
+								</a>
+								{#if project.tagLine}
+									— {project.tagLine}
+								{/if}
+							</div>
+						</li>
+					{/each}
+				</ul>
+			</div>
+		{/each}
+	</section>
 </main>
 
 <style>
-	main {
-		--flow-space: 1.5em;
+	hgroup {
+		position: relative;
+		display: flex;
+		justify-content: space-between;
+		margin-top: 3em;
+		margin-bottom: 2em;
+	}
+
+	hgroup::before {
+		content: '';
+		position: absolute;
+		top: 50%;
+		left: 0;
+		transform: translateY(-50%);
+		width: 100%;
+		height: 1px;
+		background-color: var(--c-gray-200);
+		z-index: -1;
+	}
+
+	hgroup > :global(*) {
+		font-size: var(--fluid-step-0);
+		font-family: var(--display-font);
+		line-height: 1.15;
+		margin: 0;
+		background-color: #ffffff;
+	}
+
+	hgroup p {
+		padding-left: var(--space-300);
+		white-space: nowrap;
+	}
+
+	hgroup p a {
+		display: inline-block;
+	}
+
+	hgroup p a + a {
+		margin-left: var(--space-100);
+	}
+
+	hgroup p a img {
+		width: auto;
+		height: 0.9em;
+	}
+
+	hgroup + p {
+		color: var(--c-gray-800);
+		margin-bottom: 1.5em;
+	}
+
+	.section {
+		color: var(--c-gray-800);
+		font-size: var(--fluid-step--2);
+		margin-top: 2em;
 	}
 </style>

@@ -10,28 +10,38 @@ body {
 	font-size: var(--fluid-step--1);
 	line-height: 1.5;
 	overflow-x: hidden;
-	padding: 0px var(--size-px-200) var(--size-px-600) var(--size-px-200);
-	max-width: 800px;
+	padding: 0px var(--space-200) var(--space-600) var(--space-200);
+	max-width: 70ch;
 	margin: 0 auto;
+	color: var(--c-black);
 }
 
 h1,
 h2,
 h3 {
-	font-family: var(--display-font);
 	line-height: 1.2;
-	margin-top: 2em;
 	margin-bottom: 0.5em;
+}
+
+h1,
+h2 {
+	font-family: var(--display-font);
+}
+
+h2,
+h3 {
+	font-size: var(--fluid-step--1);
+	font-weight: var(--font-weight-medium);
 }
 
 h1 {
 	font-size: var(--fluid-step-3);
 	margin-top: 1em;
+	margin-bottom: 1.5em;
 }
 
-h2,
-h3 {
-	font-size: var(--fluid-step-1);
+h2 {
+	margin-top: 3em;
 }
 
 p {
@@ -41,6 +51,32 @@ p {
 
 a {
 	color: currentColor;
+
+	text-decoration-color: var(--c-gray-600);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+ul,
+ol {
+	list-style: none;
+	padding-left: var(--space-400);
+}
+
+li {
+	position: relative;
+}
+
+li::before {
+	content: '';
+	width: 5px;
+	height: 5px;
+	border-radius: 50%;
+	border: 1px solid var(--c-gray-500);
+	background-color: #ffffff;
+	position: absolute;
+	top: 0.6em;
+	left: calc(-1 * var(--space-400) + var(--space-100) / 2);
 }
 
 li + li {
@@ -64,4 +100,9 @@ th {
 /* hide focus ring when it's not supposed to be visible */
 :focus:not(:focus-visible) {
 	outline: none;
+}
+
+::selection {
+	background: rgb(255, 154, 158);
+	color: white;
 }
