@@ -10,7 +10,6 @@
 	h1,
 	h2 {
 		position: relative;
-		font-size: var(--fluid-step-0);
 	}
 
 	h1 span,

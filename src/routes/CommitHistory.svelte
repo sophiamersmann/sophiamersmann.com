@@ -87,6 +87,10 @@
 		white-space: nowrap;
 	}
 
+	.commit-sha:hover {
+		color: var(--c-black);
+	}
+
 	.commit-sha img {
 		display: inline;
 		height: 1.15em;

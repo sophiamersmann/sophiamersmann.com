@@ -1,0 +1,168 @@
+<script lang="ts">
+	import type { Project } from '$lib/load-projects';
+
+	export let project: Project;
+</script>
+
+<a href={project.url} target="_blank" rel="noreferrer">
+	<div class="pattern" />
+	<div class="content">
+		<span class="underline">{project.title}</span>
+		{#if project.tagLine}
+			— {project.tagLine}
+		{/if}
+	</div>
+</a>
+
+<style>
+	a {
+		text-decoration: none;
+	}
+
+	.pattern {
+		width: 100%;
+		height: 80px;
+	}
+
+	a:nth-of-type(4n + 1) .pattern {
+		background-color: var(--c-blue-fade);
+		opacity: 0.8;
+		background: radial-gradient(
+				circle,
+				transparent 20%,
+				var(--c-blue-fade) 20%,
+				var(--c-blue-fade) 80%,
+				transparent 80%,
+				transparent
+			),
+			radial-gradient(
+					circle,
+					transparent 20%,
+					var(--c-blue-fade) 20%,
+					var(--c-blue-fade) 80%,
+					transparent 80%,
+					transparent
+				)
+				25px 25px,
+			linear-gradient(var(--c-blue) 2px, transparent 2px) 0 -1px,
+			linear-gradient(90deg, var(--c-blue) 2px, var(--c-blue-fade) 2px) -1px 0;
+		background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
+
+		animation: horizontal-move-1 60s linear infinite alternate;
+		animation-play-state: paused;
+	}
+
+	a:nth-of-type(4n + 2) .pattern {
+		background-color: var(--c-blue-fade);
+		opacity: 0.8;
+		background-image: linear-gradient(var(--c-blue) 2px, transparent 2px),
+			linear-gradient(90deg, var(--c-blue) 2px, transparent 2px),
+			linear-gradient(var(--c-blue) 1px, transparent 1px),
+			linear-gradient(90deg, var(--c-blue) 1px, var(--c-blue-fade) 1px);
+		background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
+		background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+
+		animation: horizontal-move-2 60s linear infinite alternate;
+		animation-play-state: paused;
+	}
+
+	a:nth-of-type(4n + 3) .pattern {
+		background-color: var(--c-blue-fade);
+		opacity: 0.8;
+		background-image: linear-gradient(var(--c-blue) 1px, transparent 1px),
+			linear-gradient(to right, var(--c-blue) 1px, var(--c-blue-fade) 1px);
+		background-size: 20px 20px;
+		background-position: 4px 4px, 4px 4px;
+
+		animation: horizontal-move-3 60s linear infinite alternate;
+		animation-play-state: paused;
+	}
+
+	a:nth-of-type(4n + 4) .pattern {
+		background-color: var(--c-blue-fade);
+		opacity: 0.8;
+		background-size: 10px 10px;
+		background-image: repeating-linear-gradient(
+			45deg,
+			var(--c-blue) 0,
+			var(--c-blue) 1px,
+			var(--c-blue-fade) 0,
+			var(--c-blue-fade) 50%
+		);
+
+		animation: horizontal-move-4 60s linear infinite alternate;
+		animation-play-state: paused;
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		a:hover .pattern {
+			animation-play-state: running;
+		}
+	}
+
+	@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: reduce) {
+		a:hover .pattern {
+			background-image: none;
+			background-color: var(--c-blue);
+		}
+	}
+
+	.underline {
+		text-decoration: underline;
+		text-decoration-color: var(--c-gray-600);
+		text-decoration-thickness: 1px;
+		text-underline-offset: 3px;
+	}
+
+	.content {
+		margin-top: 0.3em;
+	}
+
+	a {
+		margin: 1em 0;
+		display: block;
+	}
+
+	@keyframes horizontal-move-1 {
+		0% {
+			background-position: 0 0, 25px 25px, 0 -1px, -1px 0;
+		}
+		100% {
+			background-position: calc(0px + 1000px) calc(0px + 1000px),
+				calc(25px + 1000px) calc(25px + 1000px),
+				calc(0px + 1000px) calc(-1px + 1000px),
+				calc(-1px + 1000px) calc(0px + 1000px);
+		}
+	}
+
+	@keyframes horizontal-move-2 {
+		0% {
+			background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
+		}
+		100% {
+			background-position: calc(-2px + 1000px) calc(-2px + 1000px),
+				calc(-2px + 1000px) calc(-2px + 1000px),
+				calc(-1px + 1000px) calc(-1px + 1000px),
+				calc(-1px + 1000px) calc(-1px + 1000px);
+		}
+	}
+
+	@keyframes horizontal-move-3 {
+		0% {
+			background-position: 4px 4px, 4px 4px;
+		}
+		100% {
+			background-position: calc(4px + 1000px) calc(4px + 1000px),
+				calc(4px + 1000px) calc(4px + 1000px);
+		}
+	}
+
+	@keyframes horizontal-move-4 {
+		0% {
+			background-position: 0 0;
+		}
+		100% {
+			background-position: 1000px 0;
+		}
+	}
+</style>

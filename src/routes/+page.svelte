@@ -4,9 +4,16 @@
 	import type { PageServerData } from './$types';
 
 	import CommitHistory from './CommitHistory.svelte';
+	import FeaturedProject from './FeaturedProject.svelte';
 	import Heading from './Heading.svelte';
+	import TextWithIcon from './TextWithIcon.svelte';
 
 	export let data: PageServerData;
+
+	// featured projects
+	$: featuredProjects = data.projects
+		.filter((p) => p.featured)
+		.sort((p1, p2) => descending(p1.date.getTime(), p2.date.getTime()));
 
 	// group projects by category and sort by date
 	$: projectsByCategory = rollups(
@@ -22,19 +29,34 @@
 </script>
 
 <main>
-	<hgroup>
-		<Heading level={1}>Sophia Mersmann</Heading>
-		<p>
-			<a href="https://github.com/sophiamersmann">
-				<img src="github.svg" alt="GitHUb" />
-			</a>
-			<a href="https://twitter.com/sophiamersmann">
-				<img src="twitter.svg" alt="Twitter" />
-			</a>
-		</p>
-	</hgroup>
+	<Heading level={1}>Sophia Mersmann</Heading>
 
-	<p>
+	<p class="introduction">
+		I'm a <TextWithIcon icon="bar-chart"
+			>Data Visualization Engineer</TextWithIcon
+		>
+		currently working at
+		<TextWithIcon icon="globe" href="https://ourworldindata.org/"
+			>Our World in Data.</TextWithIcon
+		>
+		I previously worked in a
+		<TextWithIcon icon="book-open">newsroom</TextWithIcon>
+		as part of the data journalism team at
+		<TextWithIcon icon="cast" href="https://www.rbb24.de/">rbb|24.</TextWithIcon
+		>
+		My <TextWithIcon icon="heart">girlfriend</TextWithIcon> and I live in
+		<TextWithIcon icon="home">Friedenau, Berlin.</TextWithIcon>
+		Find me on
+		<TextWithIcon icon="github" href="https://github.com/sophiamersmann"
+			>GitHub</TextWithIcon
+		>
+		and
+		<TextWithIcon icon="twitter" href="https://twitter.com/sophiamersmann"
+			>Twitter.</TextWithIcon
+		>
+	</p>
+
+	<p style:margin-top="2em">
 		This website is a living document. It started out with the <a
 			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
 			rel="noreferrer">bare minimum</a
@@ -43,8 +65,19 @@
 	</p>
 
 	{#if data.commits.length > 0}
-		<CommitHistory commits={data.commits} />
+		<div class="commit-history-wrapper">
+			<CommitHistory commits={data.commits} />
+		</div>
 	{/if}
+
+	<section>
+		<Heading>Selected Work</Heading>
+		<div class="selected-work">
+			{#each featuredProjects as project}
+				<FeaturedProject {project} />
+			{/each}
+		</div>
+	</section>
 
 	<section>
 		<Heading>Previous Work</Heading>
@@ -56,7 +89,7 @@
 					{#if category}
 						{category}
 					{:else}
-						Everything else
+						No category
 					{/if}
 				</h3>
 				<ul>
@@ -79,60 +112,16 @@
 </main>
 
 <style>
-	hgroup {
-		position: relative;
-		display: flex;
-		justify-content: space-between;
-		margin-top: 3em;
-		margin-bottom: 2em;
-	}
-
-	hgroup::before {
-		content: '';
-		position: absolute;
-		top: 50%;
-		left: 0;
-		transform: translateY(-50%);
-		width: 100%;
-		height: 1px;
-		background-color: var(--c-gray-200);
-		z-index: -1;
-	}
-
-	hgroup > :global(*) {
-		font-size: var(--fluid-step-0);
-		font-family: var(--display-font);
-		line-height: 1.15;
-		margin: 0;
-		background-color: #ffffff;
-	}
-
-	hgroup p {
-		padding-left: var(--space-300);
-		white-space: nowrap;
-	}
-
-	hgroup p a {
-		display: inline-block;
-	}
-
-	hgroup p a + a {
-		margin-left: var(--space-100);
-	}
-
-	hgroup p a img {
-		width: auto;
-		height: 0.9em;
-	}
-
-	hgroup + p {
-		color: var(--c-gray-800);
-		margin-bottom: 1.5em;
+	.commit-history-wrapper {
+		margin: 1.5em 0;
 	}
 
 	.section {
 		color: var(--c-gray-800);
-		font-size: var(--fluid-step--2);
 		margin-top: 2em;
+	}
+
+	.introduction {
+		color: var(--c-gray-800);
 	}
 </style>
