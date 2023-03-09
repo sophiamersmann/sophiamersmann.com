@@ -11,7 +11,7 @@ body {
 	line-height: 1.5;
 	overflow-x: hidden;
 	padding: 0px var(--space-200) var(--space-600) var(--space-200);
-	max-width: 70ch;
+	max-width: 75ch;
 	margin: 0 auto;
 	color: var(--c-black);
 }
@@ -67,14 +67,21 @@ a:hover {
 ul,
 ol {
 	list-style: none;
+	padding-left: 0;
+}
+
+ul:not(.list-style-none),
+ol:not(.list-style-none) {
 	padding-left: var(--space-400);
 }
 
-li {
+ul:not(.list-style-none) li,
+ol:not(.list-style-none) li {
 	position: relative;
 }
 
-li::before {
+ul:not(.list-style-none) li::before,
+ol:not(.list-style-none) li::before {
 	content: '';
 	width: 5px;
 	height: 5px;

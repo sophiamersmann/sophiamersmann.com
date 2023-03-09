@@ -2,10 +2,12 @@
 	import type { Project } from '$lib/load-projects';
 
 	export let project: Project;
+
+	export let pattern: 'cross' | 'paper' | 'boxes' | 'diagonal' = 'cross';
 </script>
 
 <a href={project.url} target="_blank" rel="noreferrer">
-	<div class="pattern" />
+	<div class="pattern {pattern}" />
 	<div class="content">
 		<span class="underline">{project.title}</span>
 		{#if project.tagLine}
@@ -24,7 +26,7 @@
 		height: 80px;
 	}
 
-	a:nth-of-type(4n + 1) .pattern {
+	.pattern.cross {
 		background-color: var(--c-blue-fade);
 		opacity: 0.8;
 		background: radial-gradient(
@@ -48,11 +50,11 @@
 			linear-gradient(90deg, var(--c-blue) 2px, var(--c-blue-fade) 2px) -1px 0;
 		background-size: 50px 50px, 50px 50px, 25px 25px, 25px 25px;
 
-		animation: horizontal-move-1 60s linear infinite alternate;
+		animation: move-cross 60s linear infinite alternate;
 		animation-play-state: paused;
 	}
 
-	a:nth-of-type(4n + 2) .pattern {
+	.pattern.paper {
 		background-color: var(--c-blue-fade);
 		opacity: 0.8;
 		background-image: linear-gradient(var(--c-blue) 2px, transparent 2px),
@@ -62,11 +64,11 @@
 		background-size: 50px 50px, 50px 50px, 10px 10px, 10px 10px;
 		background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 
-		animation: horizontal-move-2 60s linear infinite alternate;
+		animation: move-paper 60s linear infinite alternate;
 		animation-play-state: paused;
 	}
 
-	a:nth-of-type(4n + 3) .pattern {
+	.pattern.boxes {
 		background-color: var(--c-blue-fade);
 		opacity: 0.8;
 		background-image: linear-gradient(var(--c-blue) 1px, transparent 1px),
@@ -74,11 +76,11 @@
 		background-size: 20px 20px;
 		background-position: 4px 4px, 4px 4px;
 
-		animation: horizontal-move-3 60s linear infinite alternate;
+		animation: move-boxes 60s linear infinite alternate;
 		animation-play-state: paused;
 	}
 
-	a:nth-of-type(4n + 4) .pattern {
+	.pattern.diagonal {
 		background-color: var(--c-blue-fade);
 		opacity: 0.8;
 		background-size: 10px 10px;
@@ -90,7 +92,7 @@
 			var(--c-blue-fade) 50%
 		);
 
-		animation: horizontal-move-4 60s linear infinite alternate;
+		animation: move-diagonal 60s linear infinite alternate;
 		animation-play-state: paused;
 	}
 
@@ -123,7 +125,7 @@
 		display: block;
 	}
 
-	@keyframes horizontal-move-1 {
+	@keyframes move-cross {
 		0% {
 			background-position: 0 0, 25px 25px, 0 -1px, -1px 0;
 		}
@@ -135,7 +137,7 @@
 		}
 	}
 
-	@keyframes horizontal-move-2 {
+	@keyframes move-paper {
 		0% {
 			background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px;
 		}
@@ -147,7 +149,7 @@
 		}
 	}
 
-	@keyframes horizontal-move-3 {
+	@keyframes move-boxes {
 		0% {
 			background-position: 4px 4px, 4px 4px;
 		}
@@ -157,7 +159,7 @@
 		}
 	}
 
-	@keyframes horizontal-move-4 {
+	@keyframes move-diagonal {
 		0% {
 			background-position: 0 0;
 		}

@@ -8,6 +8,8 @@
 	import Heading from './Heading.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
 
+	import { PATTERNS } from './const';
+
 	export let data: PageServerData;
 
 	// featured projects
@@ -39,14 +41,10 @@
 		<TextWithIcon icon="globe" href="https://ourworldindata.org/"
 			>Our World in Data.</TextWithIcon
 		>
-		I previously worked in a
-		<TextWithIcon icon="book-open">newsroom</TextWithIcon>
-		as part of the data journalism team at
+		I previously worked in a newsroom as part of the data journalism team at
 		<TextWithIcon icon="cast" href="https://www.rbb24.de/">rbb|24.</TextWithIcon
 		>
-		My <TextWithIcon icon="heart">girlfriend</TextWithIcon> and I live in
-		<TextWithIcon icon="home">Friedenau, Berlin.</TextWithIcon>
-		Find me on
+		I live in Berlin. Find me on
 		<TextWithIcon icon="github" href="https://github.com/sophiamersmann"
 			>GitHub</TextWithIcon
 		>
@@ -70,13 +68,15 @@
 		</div>
 	{/if}
 
-	<section>
-		<Heading>Selected Work</Heading>
-		<div class="selected-work">
-			{#each featuredProjects as project}
-				<FeaturedProject {project} />
+	<section class="featured-projects">
+		<Heading>Featured Projects</Heading>
+		<ul class="list-style-none">
+			{#each featuredProjects as project, i}
+				<li>
+					<FeaturedProject {project} pattern={PATTERNS[i % PATTERNS.length]} />
+				</li>
 			{/each}
-		</div>
+		</ul>
 	</section>
 
 	<section>
@@ -123,5 +123,9 @@
 
 	.introduction {
 		color: var(--c-gray-800);
+	}
+
+	.featured-projects li {
+		margin: 1.5em 0;
 	}
 </style>
