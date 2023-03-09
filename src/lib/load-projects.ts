@@ -10,9 +10,13 @@ const ZProject = z.object({
 	category: z.string().optional(),
 	url: z.string().url(),
 	sourceCodeUrl: z.string().url().optional(),
+	featured: z.union([z.literal('TRUE'), z.literal('FALSE')]).optional(),
 });
 
-export type Project = Omit<z.infer<typeof ZProject>, 'date'> & { date: Date };
+export type Project = Omit<z.infer<typeof ZProject>, 'date' | 'featured'> & {
+	date: Date;
+	featured: boolean;
+};
 
 export default projects.map((p: Record<string, any>) => {
 	// replace empty strings with undefined
@@ -24,6 +28,7 @@ export default projects.map((p: Record<string, any>) => {
 
 	return {
 		...project,
+		featured: project.featured === 'TRUE',
 		date: new Date(project.date),
 	};
 }) as Project[];
