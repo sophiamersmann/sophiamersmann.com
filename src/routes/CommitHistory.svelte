@@ -70,9 +70,7 @@
 		position: absolute;
 		top: 3px;
 		left: 0;
-		transform: translateX(
-			calc(-1 * var(--space-400) - 100% - var(--space-200))
-		);
+		transform: translateX(calc(-1 * var(--space-400) - 100% - 6px));
 		font-size: var(--fluid-step--2);
 		color: var(--c-gray-500);
 	}
