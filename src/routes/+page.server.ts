@@ -110,10 +110,11 @@ export const load = (async () => {
 			);
 		}
 
+		const ignoreTags = ['chore', 'fix', 'style'];
 		for (const c of fetchedCommits) {
 			let message = c.commit.message.split('\n')[0];
 
-			if (!message.startsWith('chore:') && !message.startsWith('fix:')) {
+			if (!ignoreTags.some((tag) => message.startsWith(`${tag}:`))) {
 				// remove PR number from commit message
 				message = message.replace(/(\(#\d+\))/, '').trim();
 
