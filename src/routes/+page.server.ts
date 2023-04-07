@@ -1,3 +1,5 @@
+import { descending } from 'd3-array';
+
 import type { PageServerLoad } from './$types';
 import { GITHUB_PAT, VERCEL_TOKEN } from '$env/static/private';
 
@@ -10,11 +12,21 @@ export type Commit = {
 	// GitHub's commit URL
 	githubUrl: string;
 	// Vercel's deployment URL
-	url: string | null;
+	url: string;
 	// commit message
 	message: string;
 	date: Date;
 };
+
+type Deployment = {
+	created: number;
+	url: string;
+	deploymentId: string;
+	githubCommitSha: string;
+	valid: boolean;
+};
+
+type DeploymentsByCommit = Map<string, Deployment>;
 
 type TIL = {
 	date: Date;
@@ -106,7 +118,14 @@ async function fetchVercelDeployments({
 	}
 }
 
-export const load = (async () => {
+function getDeploymentIdFromVercelURL(hostname: string) {
+	const regex = /sophiamersmann-(.+)-sophiamersmann\.vercel\.app/;
+	const match = hostname.match(regex);
+	if (match == null) return null;
+	return match[1];
+}
+
+export const load = (async ({ url }) => {
 	// fetch commits from GitHub API
 	const promisedCommits = fetchGitCommits({
 		owner: 'sophiamersmann',
@@ -134,19 +153,38 @@ export const load = (async () => {
 
 	const commits: Commit[] = [];
 	if (fetchedCommits != null) {
-		let deploymentUrlMap = new Map<string, string>();
+		const currDeploymentId = getDeploymentIdFromVercelURL(url.hostname);
+		let deploymentsByCommit: DeploymentsByCommit = new Map();
 
-		// map from a GitHub commit SHA to a Vercel deployment URL
 		if (fetchedDeployments != null) {
-			const deployments = fetchedDeployments.deployments.map(
-				(deployment: Record<string, any>) => ({
+			let deployments = fetchedDeployments.deployments
+				.map((deployment: Record<string, any>) => ({
+					created: deployment.created,
 					url: deployment.url,
+					deploymentId: getDeploymentIdFromVercelURL(deployment.url),
 					githubCommitSha: deployment.meta.githubCommitSha,
-				})
-			);
-			deploymentUrlMap = new Map(
-				deployments.map((d) => [d.githubCommitSha, d.url])
-			);
+					valid: true,
+				}))
+				.sort((a, b) => descending(a.created, b.created));
+
+			if (currDeploymentId != null) {
+				const currDeployment = deployments.find(
+					(d) => d.deploymentId === currDeploymentId
+				);
+
+				if (currDeployment) {
+					deployments = deployments.map((d) => ({
+						...d,
+						valid: d.created <= currDeployment.created,
+					}));
+				}
+			}
+
+			deploymentsByCommit = new Map(
+				deployments
+					.filter((d) => d.deploymentId)
+					.map((d) => [d.githubCommitSha, d])
+			) as DeploymentsByCommit;
 		}
 
 		const ignoreTags = ['chore', 'fix', 'style'];
@@ -157,16 +195,17 @@ export const load = (async () => {
 				// remove PR number from commit message
 				message = message.replace(/(\(#\d+\))/, '').trim();
 
-				commits.push({
-					sha: c.sha,
-					shaShort: c.sha.slice(0, 7),
-					githubUrl: c.html_url,
-					message,
-					date: new Date(c.commit.author.date),
-					url: deploymentUrlMap.has(c.sha)
-						? 'https://' + deploymentUrlMap.get(c.sha)
-						: null,
-				});
+				const deployment = deploymentsByCommit.get(c.sha);
+				if (deployment && deployment.valid) {
+					commits.push({
+						sha: c.sha,
+						shaShort: c.sha.slice(0, 7),
+						githubUrl: c.html_url,
+						message,
+						date: new Date(c.commit.author.date),
+						url: 'https://' + deployment.url,
+					});
+				}
 			}
 		}
 	}
