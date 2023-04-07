@@ -16,6 +16,38 @@ export type Commit = {
 	date: Date;
 };
 
+type TIL = {
+	date: Date;
+	topic: string;
+	heading: string;
+	url: string;
+};
+
+async function fetchJsonFileFromGit({
+	owner,
+	repo,
+	filename,
+}: {
+	owner: string;
+	repo: string;
+	filename: string;
+}): Promise<any> {
+	const base = 'https://raw.githubusercontent.com';
+	const url = `${base}/${owner}/${repo}/main/${filename}`;
+
+	try {
+		const response = await fetch(url);
+
+		if (response.ok) {
+			return await response.json();
+		} else {
+			return null;
+		}
+	} catch {
+		return null;
+	}
+}
+
 async function fetchGitCommits({
 	owner,
 	repo,
@@ -88,9 +120,16 @@ export const load = (async () => {
 		target: 'production',
 	});
 
-	const [fetchedCommits, fetchedDeployments] = await Promise.all([
+	const promisedTILs = fetchJsonFileFromGit({
+		owner: 'sophiamersmann',
+		repo: 'til',
+		filename: 'data.json',
+	});
+
+	const [fetchedCommits, fetchedDeployments, fetchedTILs] = await Promise.all([
 		promisedCommits,
 		promisedDeployments,
+		promisedTILs,
 	]);
 
 	const commits: Commit[] = [];
@@ -132,8 +171,26 @@ export const load = (async () => {
 		}
 	}
 
+	let tils: TIL[] = [];
+	if (fetchedTILs != null) {
+		tils = fetchedTILs.map(
+			(til: {
+				date: string;
+				topic: string;
+				heading: string;
+				path: string;
+			}) => ({
+				date: new Date(til.date),
+				topic: til.topic,
+				heading: til.heading,
+				url: `https://github.com/sophiamersmann/til/blob/main/${til.path}`,
+			})
+		);
+	}
+
 	return {
 		projects,
 		commits,
+		tils,
 	};
 }) satisfies PageServerLoad;

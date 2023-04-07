@@ -7,6 +7,7 @@
 	import FeaturedProject from './FeaturedProject.svelte';
 	import Heading from './Heading.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
+	import Date from './Date.svelte';
 
 	import { PATTERNS } from './const';
 
@@ -28,6 +29,11 @@
 	).sort(([, p1], [, p2]) =>
 		descending(p1[0].date.getTime(), p2[0].date.getTime())
 	);
+
+	// sort TILs by date
+	$: tils = data.tils.sort((t1, t2) =>
+		descending(t1.date.getTime(), t2.date.getTime())
+	);
 </script>
 
 <main>
@@ -35,7 +41,7 @@
 
 	<p class="introduction">
 		I'm a <TextWithIcon icon="bar-chart"
-			>Data Visualization Engineer</TextWithIcon
+			>Data Visualisation Engineer</TextWithIcon
 		>
 		currently working at
 		<TextWithIcon icon="globe" href="https://ourworldindata.org/"
@@ -68,47 +74,74 @@
 		</div>
 	{/if}
 
-	<section class="featured-projects">
-		<Heading>Featured Projects</Heading>
-		<ul class="list-style-none">
-			{#each featuredProjects as project, i}
-				<li>
-					<FeaturedProject {project} pattern={PATTERNS[i % PATTERNS.length]} />
-				</li>
+	{#if featuredProjects.length > 0}
+		<section class="featured-projects">
+			<Heading>Featured Projects</Heading>
+			<ul class="list-style-none">
+				{#each featuredProjects as project, i}
+					<li>
+						<FeaturedProject
+							{project}
+							pattern={PATTERNS[i % PATTERNS.length]}
+						/>
+					</li>
+				{/each}
+			</ul>
+		</section>
+	{/if}
+
+	{#if projectsByCategory.length > 0}
+		<section>
+			<Heading>Previous Work</Heading>
+
+			<!-- list of projects, grouped by category -->
+			{#each projectsByCategory as [category, projects] (category)}
+				<div class="section">
+					<h3>
+						{#if category}
+							{category}
+						{:else}
+							No category
+						{/if}
+					</h3>
+					<ul>
+						{#each projects as project}
+							<li>
+								<span style:margin-right="var(--space-200)">
+									<a href={project.url} target="_blank" rel="noreferrer">
+										{project.title}
+									</a>
+									{#if project.tagLine}
+										— {project.tagLine}
+									{/if}
+								</span>
+								<Date date={project.date} />
+							</li>
+						{/each}
+					</ul>
+				</div>
 			{/each}
-		</ul>
-	</section>
+		</section>
+	{/if}
 
-	<section>
-		<Heading>Previous Work</Heading>
-
-		<!-- list of projects, grouped by category -->
-		{#each projectsByCategory as [category, projects] (category)}
-			<div class="section">
-				<h3>
-					{#if category}
-						{category}
-					{:else}
-						No category
-					{/if}
-				</h3>
-				<ul>
-					{#each projects as project}
-						<li>
-							<div>
-								<a href={project.url} target="_blank" rel="noreferrer">
-									{project.title}
-								</a>
-								{#if project.tagLine}
-									— {project.tagLine}
-								{/if}
-							</div>
-						</li>
-					{/each}
-				</ul>
-			</div>
-		{/each}
-	</section>
+	{#if tils.length > 0}
+		<section>
+			<Heading>Today I Learned</Heading>
+			<ul>
+				{#each tils as til (til.heading)}
+					<li>
+						<span style:margin-right="var(--space-200)">
+							<a href={til.url} target="_blank" rel="noreferrer">
+								{til.heading}
+							</a>
+							({til.topic})
+						</span>
+						<Date date={til.date} />
+					</li>
+				{/each}
+			</ul>
+		</section>
+	{/if}
 </main>
 
 <style>

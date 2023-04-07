@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Project } from '$lib/load-projects';
+	import Date from './Date.svelte';
 
 	export let project: Project;
 
@@ -9,10 +10,13 @@
 <a href={project.url} target="_blank" rel="noreferrer">
 	<div class="pattern {pattern}" />
 	<div class="content">
-		<span class="underline">{project.title}</span>
-		{#if project.tagLine}
-			— {project.tagLine}
-		{/if}
+		<span style:margin-right="var(--space-200)">
+			<span class="underline">{project.title}</span>
+			{#if project.tagLine}
+				— {project.tagLine}
+			{/if}
+		</span>
+		<Date date={project.date} />
 	</div>
 </a>
 
