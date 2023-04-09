@@ -11,6 +11,20 @@ const ZProject = z.object({
 	url: z.string().url(),
 	sourceCodeUrl: z.string().url().optional(),
 	featured: z.union([z.literal('TRUE'), z.literal('FALSE')]).optional(),
+	icon: z
+		.union([
+			z.literal('help-circle'),
+			z.literal('book-open'),
+			z.literal('phone-call'),
+			z.literal('dollar-sign'),
+			z.literal('trending-up'),
+			z.literal('shopping-cart'),
+			z.literal('home'),
+			z.literal('code'),
+			z.literal('pie-chart'),
+			z.literal('clipboard'),
+		]) // TODO: should be generated from ICONS
+		.optional(),
 });
 
 export type Project = Omit<z.infer<typeof ZProject>, 'date' | 'featured'> & {

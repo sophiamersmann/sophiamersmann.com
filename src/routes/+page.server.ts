@@ -12,7 +12,7 @@ export type Commit = {
 	// GitHub's commit URL
 	githubUrl: string;
 	// Vercel's deployment URL
-	url: string;
+	url: string | null;
 	// commit message
 	message: string;
 	date: Date;
@@ -34,6 +34,8 @@ type TIL = {
 	heading: string;
 	url: string;
 };
+
+const WHITELISTED_COMMITS = ['5dd6a20'];
 
 async function fetchJsonFileFromGit({
 	owner,
@@ -154,6 +156,7 @@ export const load = (async ({ url }) => {
 	const commits: Commit[] = [];
 	if (fetchedCommits != null) {
 		const currDeploymentId = getDeploymentIdFromVercelURL(url.hostname);
+		let currDeployment: Deployment | undefined = undefined;
 		let deploymentsByCommit: DeploymentsByCommit = new Map();
 
 		if (fetchedDeployments != null) {
@@ -165,45 +168,50 @@ export const load = (async ({ url }) => {
 					githubCommitSha: deployment.meta.githubCommitSha,
 					valid: true,
 				}))
-				.sort((a, b) => descending(a.created, b.created));
+				.filter((d) => d.deploymentId)
+				.sort((a, b) => descending(a.created, b.created)) as Deployment[];
 
 			if (currDeploymentId != null) {
-				const currDeployment = deployments.find(
+				currDeployment = deployments.find(
 					(d) => d.deploymentId === currDeploymentId
 				);
 
 				if (currDeployment) {
 					deployments = deployments.map((d) => ({
 						...d,
-						valid: d.created <= currDeployment.created,
+						valid: d.created <= (currDeployment as Deployment).created,
 					}));
 				}
 			}
 
 			deploymentsByCommit = new Map(
-				deployments
-					.filter((d) => d.deploymentId)
-					.map((d) => [d.githubCommitSha, d])
-			) as DeploymentsByCommit;
+				deployments.map((d) => [d.githubCommitSha, d])
+			);
 		}
 
 		const ignoreTags = ['chore', 'fix', 'style'];
 		for (const c of fetchedCommits) {
 			let message = c.commit.message.split('\n')[0];
+			const shaShort = c.sha.slice(0, 7);
+			const commitCreated = new Date(c.commit.author.date).getTime();
 
 			if (!ignoreTags.some((tag) => message.startsWith(`${tag}:`))) {
 				// remove PR number from commit message
 				message = message.replace(/(\(#\d+\))/, '').trim();
 
 				const deployment = deploymentsByCommit.get(c.sha);
-				if (deployment && deployment.valid) {
+				if (
+					(WHITELISTED_COMMITS.includes(shaShort) &&
+						(!currDeployment || commitCreated <= currDeployment.created)) ||
+					(deployment && deployment.valid)
+				) {
 					commits.push({
 						sha: c.sha,
-						shaShort: c.sha.slice(0, 7),
+						shaShort,
 						githubUrl: c.html_url,
 						message,
 						date: new Date(c.commit.author.date),
-						url: 'https://' + deployment.url,
+						url: deployment ? 'https://' + deployment.url : null,
 					});
 				}
 			}

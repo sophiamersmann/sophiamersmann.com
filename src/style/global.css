@@ -44,6 +44,7 @@ h2 {
 h3 {
 	font-size: var(--fluid-step--1);
 	font-weight: var(--font-weight-medium);
+	margin-top: 2em;
 }
 
 p {
@@ -68,6 +69,7 @@ ul,
 ol {
 	list-style: none;
 	padding-left: 0;
+	color: var(--c-gray-800);
 }
 
 ul:not(.list-style-none),
@@ -97,6 +99,10 @@ li + li {
 	margin-top: 0.5em;
 }
 
+.list-style-none li {
+	margin: 0;
+}
+
 table {
 	border-collapse: collapse;
 }
@@ -117,6 +123,6 @@ th {
 }
 
 ::selection {
-	background: rgb(255, 154, 158);
+	background: var(--c-salmon);
 	color: white;
 }

@@ -46,6 +46,7 @@
 	--c-black: var(--c-gray-900);
 
 	/* colors */
-	--c-blue: hsl(232, 98%, 55%);
-	--c-blue-fade: hsl(234, 98%, 97%);
+	--c-blue: hsl(245deg, 95%, 60%);
+	--c-salmon: hsl(358deg, 100%, 80%);
+	--c-salmon-light: hsl(358deg, 100%, 94%);
 }

@@ -4,14 +4,24 @@
 	import type { PageServerData } from './$types';
 
 	import CommitHistory from './CommitHistory.svelte';
-	import FeaturedProject from './FeaturedProject.svelte';
 	import Heading from './Heading.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
-	import Date from './Date.svelte';
-
-	import { PATTERNS } from './const';
+	import DateComp from './Date.svelte';
+	import ProjectSection from './ProjectSection.svelte';
+	import ProjectGrid from './ProjectGrid.svelte';
 
 	export let data: PageServerData;
+
+	// helper functions
+	const byTime = (a: { date: Date }, b: { date: Date }) =>
+		descending(a.date.getTime(), b.date.getTime());
+	const groupSort = <Item extends { date: Date }>(
+		data: Item[],
+		key: (item: Item) => any
+	) =>
+		rollups(data, (projects) => projects.sort(byTime), key).sort(
+			([, p1], [, p2]) => descending(p1[0].date.getTime(), p2[0].date.getTime())
+		);
 
 	// featured projects
 	$: featuredProjects = data.projects
@@ -19,21 +29,19 @@
 		.sort((p1, p2) => descending(p1.date.getTime(), p2.date.getTime()));
 
 	// group projects by category and sort by date
-	$: projectsByCategory = rollups(
+	$: projectsByCategory = groupSort(
 		data.projects,
-		(projects) =>
-			projects.sort((p1, p2) =>
-				descending(p1.date.getTime(), p2.date.getTime())
-			),
 		(project) => project.category
-	).sort(([, p1], [, p2]) =>
-		descending(p1[0].date.getTime(), p2[0].date.getTime())
 	);
 
-	// sort TILs by date
-	$: tils = data.tils.sort((t1, t2) =>
-		descending(t1.date.getTime(), t2.date.getTime())
+	// treat "Archive" as a special category
+	$: projectsByCategoryWithoutArchive = projectsByCategory.filter(
+		([category]) => category !== 'Archive'
 	);
+	$: archive = projectsByCategory.find(([category]) => category === 'Archive');
+
+	// group TILs by topic and sort by date
+	$: tilsByTopic = groupSort(data.tils, (til) => til.topic);
 </script>
 
 <main>
@@ -77,70 +85,54 @@
 	{#if featuredProjects.length > 0}
 		<section class="featured-projects">
 			<Heading>Featured Projects</Heading>
-			<ul class="list-style-none">
-				{#each featuredProjects as project, i}
-					<li>
-						<FeaturedProject
-							{project}
-							pattern={PATTERNS[i % PATTERNS.length]}
-						/>
-					</li>
-				{/each}
-			</ul>
+			<ProjectGrid projects={featuredProjects} />
 		</section>
 	{/if}
 
-	{#if projectsByCategory.length > 0}
-		<section>
-			<Heading>Previous Work</Heading>
-
-			<!-- list of projects, grouped by category -->
-			{#each projectsByCategory as [category, projects] (category)}
-				<div class="section">
-					<h3>
-						{#if category}
-							{category}
-						{:else}
-							No category
-						{/if}
-					</h3>
-					<ul>
-						{#each projects as project}
-							<li>
-								<span style:margin-right="var(--space-200)">
-									<a href={project.url} target="_blank" rel="noreferrer">
-										{project.title}
-									</a>
-									{#if project.tagLine}
-										— {project.tagLine}
-									{/if}
-								</span>
-								<Date date={project.date} />
-							</li>
-						{/each}
-					</ul>
-				</div>
-			{/each}
-		</section>
+	{#if projectsByCategoryWithoutArchive.length > 0}
+		{#each projectsByCategoryWithoutArchive as [category, projects] (category)}
+			<ProjectSection title={category} {projects} />
+		{/each}
 	{/if}
 
-	{#if tils.length > 0}
+	{#if tilsByTopic.length > 0}
 		<section>
 			<Heading>Today I Learned</Heading>
+		</section>
+
+		<!-- list of tils, grouped by topic -->
+		{#each tilsByTopic as [topic, tils] (topic)}
+			<h3>
+				{#if topic}
+					{topic}
+				{:else}
+					No topic
+				{/if}
+			</h3>
 			<ul>
-				{#each tils as til (til.heading)}
+				{#each tils as til}
 					<li>
-						<span style:margin-right="var(--space-200)">
-							<a href={til.url} target="_blank" rel="noreferrer">
-								{til.heading}
-							</a>
-							({til.topic})
-						</span>
-						<Date date={til.date} />
+						<a
+							href={til.url}
+							target="_blank"
+							rel="noreferrer"
+							style:margin-right="var(--space-200)"
+						>
+							{til.heading}
+						</a>
+						<DateComp date={til.date} />
 					</li>
 				{/each}
 			</ul>
-		</section>
+		{/each}
+	{/if}
+
+	{#if archive}
+		<ProjectSection
+			title={archive[0]}
+			projects={archive[1]}
+			groupByYear={false}
+		/>
 	{/if}
 </main>
 
@@ -149,16 +141,7 @@
 		margin: 1.5em 0;
 	}
 
-	.section {
-		color: var(--c-gray-800);
-		margin-top: 2em;
-	}
-
 	.introduction {
 		color: var(--c-gray-800);
-	}
-
-	.featured-projects li {
-		margin: 1.5em 0;
 	}
 </style>

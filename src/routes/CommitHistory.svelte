@@ -28,7 +28,11 @@
 				{/if}
 
 				<span class="commit">
-					<a href={commit.url} rel="noreferrer">{commit.message}</a>
+					{#if commit.url}
+						<a href={commit.url} rel="noreferrer">{commit.message}</a>
+					{:else}
+						{commit.message}
+					{/if}
 				</span>
 				<a
 					class="commit-sha"
@@ -36,7 +40,7 @@
 					target="_blank"
 					rel="noreferrer"
 				>
-					<img src="git-commit.svg" alt="Git Commit" />
+					<img src="icons/git-commit.svg" alt="Git Commit" />
 					{commit.shaShort}
 				</a>
 			</li>

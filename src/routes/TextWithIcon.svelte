@@ -1,37 +1,18 @@
 <script lang="ts">
-	type Icon =
-		| 'bar-chart'
-		| 'book-open'
-		| 'cast'
-		| 'globe'
-		| 'home'
-		| 'github'
-		| 'twitter'
-		| 'heart';
+	import { ICON_ALT, type Icon } from '$lib/const';
 
 	export let icon: Icon;
 	export let href: string | undefined = undefined;
-
-	const iconAlt = {
-		'bar-chart': 'Bar chart',
-		'book-open': 'Newspaper',
-		cast: 'Cast',
-		globe: 'Globe',
-		home: 'Home',
-		github: 'GitHub',
-		twitter: 'Twitter',
-		heart: 'Heart',
-	};
 </script>
 
 {#if href}
 	<a class="text-with-icon" {href} target="_blank" rel="noreferrer">
-		<img src="{icon}.svg" alt={iconAlt[icon]} />
+		<img src="icons/{icon}.svg" alt={ICON_ALT[icon]} />
 		<slot />
 	</a>
 {:else}
 	<span class="text-with-icon">
-		<img src="{icon}.svg" alt={iconAlt[icon]} />
+		<img src="icons/{icon}.svg" alt={ICON_ALT[icon]} />
 		<slot />
 	</span>
 {/if}

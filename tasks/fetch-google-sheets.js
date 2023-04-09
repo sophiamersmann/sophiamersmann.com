@@ -13,7 +13,7 @@ import cfg from '../google-sheets.config.js';
 const cwd = process.cwd();
 
 async function fetchGoogleSheet({ id, gid }) {
-	console.log(`fetching...${id} (${gid})`);
+	console.info(`fetching... ${id} (${gid})`);
 
 	// construct URL to download Google sheet content as csv
 	const base = 'https://docs.google.com';
