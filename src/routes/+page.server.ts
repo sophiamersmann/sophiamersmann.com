@@ -36,6 +36,8 @@ type TIL = {
 };
 
 const WHITELISTED_COMMITS = ['5dd6a20'];
+const BLACKLISTED_COMMITS = ['a6fd77d'];
+const IGNORED_COMMIT_TAGS = ['chore', 'fix', 'style'];
 
 async function fetchJsonFileFromGit({
 	owner,
@@ -189,13 +191,15 @@ export const load = (async ({ url }) => {
 			);
 		}
 
-		const ignoreTags = ['chore', 'fix', 'style'];
 		for (const c of fetchedCommits) {
 			let message = c.commit.message.split('\n')[0];
 			const shaShort = c.sha.slice(0, 7);
 			const commitCreated = new Date(c.commit.author.date).getTime();
 
-			if (!ignoreTags.some((tag) => message.startsWith(`${tag}:`))) {
+			if (
+				!BLACKLISTED_COMMITS.includes(shaShort) &&
+				!IGNORED_COMMIT_TAGS.some((tag) => message.startsWith(`${tag}:`))
+			) {
 				// remove PR number from commit message
 				message = message.replace(/(\(#\d+\))/, '').trim();
 
