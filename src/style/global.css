@@ -61,8 +61,17 @@ a {
 	text-underline-offset: 3px;
 }
 
-a:hover {
-	color: var(--c-black);
+.underline {
+	text-decoration: underline;
+	text-decoration-color: var(--c-gray-600);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+	a:hover {
+		color: var(--c-black);
+	}
 }
 
 ul,
@@ -109,6 +118,22 @@ table {
 
 th {
 	text-align: left;
+}
+
+mark {
+	font-style: italic;
+	margin: 0 -0.4em;
+	padding: 0.1em 0.4em;
+	border-radius: 0.8em 0.3em;
+	background: transparent;
+	background-image: linear-gradient(
+		to right,
+		rgba(241, 225, 71, 0.15),
+		rgba(241, 225, 71, 0.525) 11.9615%,
+		rgba(241, 225, 71, 0.224)
+	);
+	-webkit-box-decoration-break: clone;
+	box-decoration-break: clone;
 }
 
 :focus,

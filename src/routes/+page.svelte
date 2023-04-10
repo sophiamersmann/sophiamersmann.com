@@ -6,9 +6,9 @@
 	import CommitHistory from './CommitHistory.svelte';
 	import Heading from './Heading.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
-	import DateComp from './Date.svelte';
 	import ProjectSection from './ProjectSection.svelte';
 	import ProjectGrid from './ProjectGrid.svelte';
+	import SingleLineDescription from './SingleLineDescription.svelte';
 
 	export let data: PageServerData;
 
@@ -112,15 +112,11 @@
 			<ul>
 				{#each tils as til}
 					<li>
-						<a
-							href={til.url}
-							target="_blank"
-							rel="noreferrer"
-							style:margin-right="var(--space-200)"
-						>
-							{til.heading}
-						</a>
-						<DateComp date={til.date} />
+						<SingleLineDescription
+							title={til.heading}
+							date={til.date}
+							url={til.url}
+						/>
 					</li>
 				{/each}
 			</ul>

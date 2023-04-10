@@ -11,6 +11,7 @@ const ZProject = z.object({
 	url: z.string().url(),
 	sourceCodeUrl: z.string().url().optional(),
 	featured: z.union([z.literal('TRUE'), z.literal('FALSE')]).optional(),
+	nomination: z.string().optional(),
 	icon: z
 		.union([
 			z.literal('help-circle'),

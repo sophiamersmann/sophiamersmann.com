@@ -2,8 +2,8 @@
 	import { groups } from 'd3-array';
 
 	import Heading from './Heading.svelte';
-	import DateComp from './Date.svelte';
 	import ProjectGrid from './ProjectGrid.svelte';
+	import SingleLineDescription from './SingleLineDescription.svelte';
 
 	import type { Project } from '$lib/load-projects';
 
@@ -41,15 +41,13 @@
 		<ul>
 			{#each projects as project}
 				<li>
-					<span style:margin-right="var(--space-200)">
-						<a href={project.url} target="_blank" rel="noreferrer">
-							{project.title}
-						</a>
-						{#if project.tagLine}
-							— {project.tagLine}
-						{/if}
-					</span>
-					<DateComp date={project.date} />
+					<SingleLineDescription
+						title={project.title}
+						date={project.date}
+						url={project.url}
+						tagLine={project.tagLine}
+						nomination={project.nomination}
+					/>
 				</li>
 			{/each}
 		</ul>

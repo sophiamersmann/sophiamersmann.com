@@ -85,8 +85,10 @@
 		white-space: nowrap;
 	}
 
-	.commit-sha:hover {
-		color: var(--c-black);
+	@media (hover: hover) and (pointer: fine) {
+		.commit-sha:hover {
+			color: var(--c-black);
+		}
 	}
 
 	.commit-sha img {
