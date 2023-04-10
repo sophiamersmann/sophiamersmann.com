@@ -1,3 +1,3 @@
-# sophiamersmann.com
+# 🏡 My Personal Website
 
-This is my corner of the internet.
+Live at https://sophiamersmann.vercel.app/
