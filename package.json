@@ -33,6 +33,7 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@vercel/analytics": "^1.0.0",
 		"d3-array": "^3.2.2",
 		"zod": "^3.20.6"
 	}
