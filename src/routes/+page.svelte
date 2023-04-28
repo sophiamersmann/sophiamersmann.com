@@ -58,7 +58,7 @@
 		I previously worked in a newsroom as part of the data journalism team at
 		<TextWithIcon icon="cast" href="https://www.rbb24.de/">rbb|24.</TextWithIcon
 		>
-		I live in Berlin. Find me on
+		I live in Frankfurt, Germany. Find me on
 		<TextWithIcon icon="github" href="https://github.com/sophiamersmann"
 			>GitHub</TextWithIcon
 		>
