@@ -39,6 +39,8 @@ h2 {
 	font-weight: var(--font-weight-semibold);
 	margin-top: 3em;
 	margin-bottom: 1.5em;
+	border-bottom: 1px solid var(--c-gray-200);
+	padding-bottom: var(--space-200);
 }
 
 h3 {
@@ -56,21 +58,23 @@ p {
 a {
 	color: currentColor;
 
-	text-decoration-color: var(--c-gray-600);
+	text-decoration-color: var(--c-gray-300);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 3px;
 }
 
 .underline {
 	text-decoration: underline;
-	text-decoration-color: var(--c-gray-600);
+	text-decoration-color: var(--c-gray-300);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 3px;
 }
 
 @media (hover: hover) and (pointer: fine) {
-	a:hover {
+	a:hover,
+	a:hover .underline {
 		color: var(--c-black);
+		text-decoration-color: var(--c-gray-600);
 	}
 }
 

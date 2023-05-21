@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { groups } from 'd3-array';
 
-	import Heading from './Heading.svelte';
 	import ProjectGrid from './ProjectGrid.svelte';
 	import SingleLineDescription from './SingleLineDescription.svelte';
 
@@ -24,9 +23,9 @@
 </script>
 
 <section>
-	<Heading>
+	<h2>
 		{title}
-	</Heading>
+	</h2>
 
 	{#if featuredProjects.length > 0}
 		<ProjectGrid projects={featuredProjects} type="secondary" />

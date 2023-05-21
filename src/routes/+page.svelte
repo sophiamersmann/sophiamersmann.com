@@ -4,7 +4,6 @@
 	import type { PageServerData } from './$types';
 
 	import CommitHistory from './CommitHistory.svelte';
-	import Heading from './Heading.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
 	import ProjectSection from './ProjectSection.svelte';
 	import ProjectGrid from './ProjectGrid.svelte';
@@ -45,7 +44,7 @@
 </script>
 
 <main>
-	<Heading level={1}>Sophia Mersmann</Heading>
+	<h1>Sophia Mersmann</h1>
 
 	<p class="introduction">
 		I'm a <TextWithIcon icon="bar-chart"
@@ -72,8 +71,14 @@
 		This website is a living document. It started out with the <a
 			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
 			rel="noreferrer">bare minimum</a
-		> and I add to it whenever I feel like doing so — just for the joy of it and
-		without an end product in mind.
+		>
+		and I add to it whenever I feel like doing so — just for the joy of it and without
+		an end product in mind. Find the source code on
+		<a
+			href="https://github.com/sophiamersmann/sophiamersmann.com"
+			target="_blank"
+			rel="noreferrer">GitHub</a
+		>.
 	</p>
 
 	{#if data.commits.length > 0}
@@ -84,7 +89,7 @@
 
 	{#if featuredProjects.length > 0}
 		<section class="featured-projects">
-			<Heading>Featured Projects</Heading>
+			<h2>Featured Projects</h2>
 			<ProjectGrid projects={featuredProjects} />
 		</section>
 	{/if}
@@ -97,7 +102,7 @@
 
 	{#if tilsByTopic.length > 0}
 		<section>
-			<Heading>Today I Learned</Heading>
+			<h2>Today I Learned</h2>
 		</section>
 
 		<!-- list of tils, grouped by topic -->
