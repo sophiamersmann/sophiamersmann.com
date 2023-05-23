@@ -103,29 +103,29 @@
 	{#if tilsByTopic.length > 0}
 		<section>
 			<h2>Today I Learned</h2>
-		</section>
 
-		<!-- list of tils, grouped by topic -->
-		{#each tilsByTopic as [topic, tils] (topic)}
-			<h3>
-				{#if topic}
-					{topic}
-				{:else}
-					No topic
-				{/if}
-			</h3>
-			<ul>
-				{#each tils as til}
-					<li>
-						<SingleLineDescription
-							title={til.heading}
-							date={til.date}
-							url={til.url}
-						/>
-					</li>
-				{/each}
-			</ul>
-		{/each}
+			<!-- list of tils, grouped by topic -->
+			{#each tilsByTopic as [topic, tils] (topic)}
+				<h3>
+					{#if topic}
+						{topic}
+					{:else}
+						No topic
+					{/if}
+				</h3>
+				<ul>
+					{#each tils as til}
+						<li>
+							<SingleLineDescription
+								title={til.heading}
+								date={til.date}
+								url={til.url}
+							/>
+						</li>
+					{/each}
+				</ul>
+			{/each}
+		</section>
 	{/if}
 
 	{#if archive}

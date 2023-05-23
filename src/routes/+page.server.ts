@@ -97,13 +97,15 @@ async function fetchVercelDeployments({
 	projectId,
 	state,
 	target,
+	limit = 100,
 }: {
 	projectId: string;
 	state: string;
 	target: string;
+	limit?: number;
 }): Promise<{ deployments: Record<string, any>[] } | null> {
 	const base = 'https://api.vercel.com';
-	const url = `${base}/v6/deployments?projectId=${projectId}&state=${state}&target=${target}`;
+	const url = `${base}/v6/deployments?projectId=${projectId}&state=${state}&target=${target}&limit=${limit}`;
 
 	try {
 		const response = await fetch(url, {
