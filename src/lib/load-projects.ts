@@ -24,6 +24,7 @@ const ZProject = z.object({
 			z.literal('code'),
 			z.literal('pie-chart'),
 			z.literal('clipboard'),
+			z.literal('star'),
 		]) // TODO: should be generated from ICONS
 		.optional(),
 });

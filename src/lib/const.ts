@@ -15,7 +15,8 @@ export const ICON_ALT = {
 	code: 'Code',
 	'pie-chart': 'Pie chart',
 	clipboard: 'Clipboard',
-	award: 'award',
+	award: 'Award',
+	star: 'Star',
 } as const;
 
 export type Icon = keyof typeof ICON_ALT;
