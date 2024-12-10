@@ -33,7 +33,7 @@
 
 	{#each projectsByYear as [year, projects]}
 		{#if year}
-			<h3 style:margin-top={featuredProjects.length > 0 ? '2em' : 0}>
+			<h3>
 				{year}
 			</h3>
 		{/if}
