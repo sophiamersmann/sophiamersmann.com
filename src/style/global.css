@@ -10,7 +10,7 @@ body {
 	font-size: var(--fluid-step--1);
 	line-height: 1.5;
 	overflow-x: hidden;
-	padding: 0px var(--space-200) var(--space-600) var(--space-200);
+	padding: 0px var(--space-300) var(--space-600) var(--space-300);
 	max-width: 75ch;
 	margin: 0 auto;
 	color: var(--c-black);

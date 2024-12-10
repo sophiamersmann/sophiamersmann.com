@@ -37,7 +37,7 @@ type TIL = {
 
 const WHITELISTED_COMMITS = ['5dd6a20'];
 const BLACKLISTED_COMMITS = ['a6fd77d'];
-const IGNORED_COMMIT_TAGS = ['chore', 'fix', 'style'];
+const IGNORED_COMMIT_TAGS = ['chore', 'fix', 'style', 'content'];
 
 async function fetchJsonFileFromGit({
 	owner,

@@ -9,7 +9,7 @@
 	export let title: string;
 	export let projects: Project[];
 
-	export let groupByYear: boolean = true;
+	export let groupByYear = true;
 
 	// get projects that are featured on top
 	$: featuredProjects = projects.filter(

@@ -62,8 +62,10 @@
 			>GitHub</TextWithIcon
 		>
 		and
-		<TextWithIcon icon="twitter" href="https://twitter.com/sophiamersmann"
-			>Twitter.</TextWithIcon
+		<TextWithIcon
+			icon="twitter"
+			href="https://bsky.app/profile/sophiamersmann.bsky.social"
+			>Bluesky.</TextWithIcon
 		>
 	</p>
 
