@@ -21,7 +21,6 @@ export type Commit = {
 type Deployment = {
 	created: number;
 	url: string;
-	deploymentId: string;
 	githubCommitSha: string;
 	valid: boolean;
 };
@@ -124,13 +123,6 @@ async function fetchVercelDeployments({
 	}
 }
 
-function getDeploymentIdFromVercelURL(hostname: string) {
-	const regex = /sophiamersmann-(.+)-sophiamersmann\.vercel\.app/;
-	const match = hostname.match(regex);
-	if (match == null) return null;
-	return match[1];
-}
-
 export const load = (async ({ url }) => {
 	// fetch commits from GitHub API
 	const promisedCommits = fetchGitCommits({
@@ -159,7 +151,6 @@ export const load = (async ({ url }) => {
 
 	const commits: Commit[] = [];
 	if (fetchedCommits != null) {
-		const currDeploymentId = getDeploymentIdFromVercelURL(url.hostname);
 		let currDeployment: Deployment | undefined = undefined;
 		let deploymentsByCommit: DeploymentsByCommit = new Map();
 
@@ -168,24 +159,21 @@ export const load = (async ({ url }) => {
 				.map((deployment: Record<string, any>) => ({
 					created: deployment.created,
 					url: deployment.url,
-					deploymentId: getDeploymentIdFromVercelURL(deployment.url),
 					githubCommitSha: deployment.meta.githubCommitSha,
 					valid: true,
 				}))
-				.filter((d) => d.deploymentId)
 				.sort((a, b) => descending(a.created, b.created)) as Deployment[];
 
-			if (currDeploymentId != null) {
-				currDeployment = deployments.find(
-					(d) => d.deploymentId === currDeploymentId,
-				);
+			// on a preview URL the hostname IS one of the deployment URLs, so the
+			// history can be truncated to that point in time. In production the
+			// hostname is the alias and matches nothing, so everything stays valid.
+			currDeployment = deployments.find((d) => d.url === url.hostname);
 
-				if (currDeployment) {
-					deployments = deployments.map((d) => ({
-						...d,
-						valid: d.created <= (currDeployment as Deployment).created,
-					}));
-				}
+			if (currDeployment) {
+				deployments = deployments.map((d) => ({
+					...d,
+					valid: d.created <= (currDeployment as Deployment).created,
+				}));
 			}
 
 			deploymentsByCommit = new Map(
