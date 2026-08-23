@@ -47,6 +47,13 @@
 
 		display: grid;
 		place-items: center;
+
+		transition: transform 160ms var(--ease-out);
+	}
+
+	/* press feedback: the only feedback touch gets, since the hover above is gated */
+	a:active .visual {
+		transform: scale(0.98);
 	}
 
 	.visual.primary {

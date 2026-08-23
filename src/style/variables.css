@@ -47,6 +47,9 @@
 	--c-gray-900: #0f172a;
 	--c-black: var(--c-gray-900);
 
+	/* easing */
+	--ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
 	/* colors */
 	--c-blue: hsl(245deg, 95%, 60%);
 	--c-salmon: hsl(358deg, 100%, 80%);
