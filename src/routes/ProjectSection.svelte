@@ -13,7 +13,7 @@
 
 	// get projects that are featured on top
 	$: featuredProjects = projects.filter(
-		(project) => !project.featured && project.icon
+		(project) => !project.featured && project.icon,
 	);
 
 	// group projects by year
