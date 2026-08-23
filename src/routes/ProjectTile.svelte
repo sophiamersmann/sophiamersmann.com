@@ -31,7 +31,7 @@
 	}
 
 	a img {
-		transition: transform 0.15s ease-in-out;
+		transition: transform 160ms var(--ease-out);
 	}
 
 	@media (hover: hover) and (pointer: fine) {
