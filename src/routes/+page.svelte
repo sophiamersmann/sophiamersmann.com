@@ -69,20 +69,6 @@
 		>
 	</p>
 
-	<p style:margin-top="2em">
-		This website is a living document. It started out with the <a
-			href="https://sophiamersmann-5e2xw7eby-sophiamersmann.vercel.app"
-			rel="noreferrer">bare minimum</a
-		>
-		and I add to it whenever I feel like doing so — just for the joy of it and without
-		an end product in mind. Find the source code on
-		<a
-			href="https://github.com/sophiamersmann/sophiamersmann.com"
-			target="_blank"
-			rel="noreferrer">GitHub</a
-		>.
-	</p>
-
 	{#if featuredProjects.length > 0}
 		<section class="featured-projects">
 			<h2>Featured Projects</h2>
