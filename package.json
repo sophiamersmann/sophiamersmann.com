@@ -6,7 +6,7 @@
 		"node": "24.x"
 	},
 	"scripts": {
-		"dev": "vite dev",
+		"dev": "npm run task:fetch-google-sheets && vite dev",
 		"prebuild": "npm run task:fetch-google-sheets",
 		"build": "vite build",
 		"preview": "vite preview",
