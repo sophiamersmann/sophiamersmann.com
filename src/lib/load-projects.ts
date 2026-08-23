@@ -7,7 +7,7 @@ const ZProject = z.object({
 	date: z.string().regex(/\d{4}-\d{2}-\d{2}/), // date must be a string that matches the format YYYY-MM-DD
 	title: z.string(),
 	tagLine: z.string().optional(),
-	category: z.string().optional(),
+	category: z.string(),
 	url: z.string().url(),
 	sourceCodeUrl: z.string().url().optional(),
 	featured: z.union([z.literal('TRUE'), z.literal('FALSE')]).optional(),
