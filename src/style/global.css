@@ -154,6 +154,22 @@ mark {
 	outline: none;
 }
 
+:focus-visible {
+	animation: focus-settle 150ms var(--ease-out);
+}
+
+@keyframes focus-settle {
+	from {
+		outline-offset: 0.35rem;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:focus-visible {
+		animation: none;
+	}
+}
+
 ::selection {
 	background: var(--c-salmon);
 	color: white;
