@@ -1,9 +1,11 @@
 :root {
-	--text-font: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-		Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Twemoji Country Flags',
+	--text-font:
+		'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+		Arial, sans-serif, 'Apple Color Emoji', 'Twemoji Country Flags',
 		'Segoe UI Emoji', 'Segoe UI Symbol';
-	--display-font: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI',
-		Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
+	--display-font:
+		'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+		Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
 		'Segoe UI Symbol';
 
 	/* fluid type scale from utopia: https://utopia.fyi/type/calculator?c=320,18,1.2,1240,20,1.25,5,2,&s=0.75|0.5|0.25,1.5|2|3|4|6,s-l&g=s,l,xl,12 */

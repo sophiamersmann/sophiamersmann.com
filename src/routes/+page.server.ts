@@ -177,7 +177,7 @@ export const load = (async ({ url }) => {
 
 			if (currDeploymentId != null) {
 				currDeployment = deployments.find(
-					(d) => d.deploymentId === currDeploymentId
+					(d) => d.deploymentId === currDeploymentId,
 				);
 
 				if (currDeployment) {
@@ -189,7 +189,7 @@ export const load = (async ({ url }) => {
 			}
 
 			deploymentsByCommit = new Map(
-				deployments.map((d) => [d.githubCommitSha, d])
+				deployments.map((d) => [d.githubCommitSha, d]),
 			);
 		}
 
@@ -237,7 +237,7 @@ export const load = (async ({ url }) => {
 				topic: til.topic,
 				heading: til.heading,
 				url: `https://github.com/sophiamersmann/til/blob/main/${til.path}`,
-			})
+			}),
 		);
 	}
 

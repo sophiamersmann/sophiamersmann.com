@@ -2,9 +2,7 @@
 	"useTabs": true,
 	"singleQuote": true,
 	"printWidth": 80,
-	"plugins": [
-		"prettier-plugin-svelte"
-	],
+	"plugins": ["prettier-plugin-svelte"],
 	"overrides": [
 		{
 			"files": "*.svelte",

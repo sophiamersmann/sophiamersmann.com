@@ -16,10 +16,11 @@
 		descending(a.date.getTime(), b.date.getTime());
 	const groupSort = <Item extends { date: Date }>(
 		data: Item[],
-		key: (item: Item) => any
+		key: (item: Item) => any,
 	) =>
 		rollups(data, (projects) => projects.sort(byTime), key).sort(
-			([, p1], [, p2]) => descending(p1[0].date.getTime(), p2[0].date.getTime())
+			([, p1], [, p2]) =>
+				descending(p1[0].date.getTime(), p2[0].date.getTime()),
 		);
 
 	// featured projects
@@ -30,12 +31,12 @@
 	// group projects by category and sort by date
 	$: projectsByCategory = groupSort(
 		data.projects,
-		(project) => project.category
+		(project) => project.category,
 	);
 
 	// treat "Archive" as a special category
 	$: projectsByCategoryWithoutArchive = projectsByCategory.filter(
-		([category]) => category !== 'Archive'
+		([category]) => category !== 'Archive',
 	);
 	$: archive = projectsByCategory.find(([category]) => category === 'Archive');
 
