@@ -1,7 +1,5 @@
-import { descending } from 'd3-array';
-
 import type { PageServerLoad } from './$types';
-import { GITHUB_PAT, VERCEL_TOKEN } from '$env/static/private';
+import { GITHUB_PAT } from '$env/static/private';
 
 import projects from '$lib/load-projects';
 
@@ -11,21 +9,10 @@ export type Commit = {
 	shaShort: string;
 	// GitHub's commit URL
 	githubUrl: string;
-	// Vercel's deployment URL
-	url: string | null;
 	// commit message
 	message: string;
 	date: Date;
 };
-
-type Deployment = {
-	created: number;
-	url: string;
-	githubCommitSha: string;
-	valid: boolean;
-};
-
-type DeploymentsByCommit = Map<string, Deployment>;
 
 type TIL = {
 	date: Date;
@@ -34,7 +21,6 @@ type TIL = {
 	url: string;
 };
 
-const WHITELISTED_COMMITS = ['5dd6a20'];
 const BLACKLISTED_COMMITS = ['a6fd77d'];
 const IGNORED_COMMIT_TAGS = ['chore', 'fix', 'style', 'content'];
 
@@ -92,49 +78,11 @@ async function fetchGitCommits({
 	}
 }
 
-async function fetchVercelDeployments({
-	projectId,
-	state,
-	target,
-	limit = 100,
-}: {
-	projectId: string;
-	state: string;
-	target: string;
-	limit?: number;
-}): Promise<{ deployments: Record<string, any>[] } | null> {
-	const base = 'https://api.vercel.com';
-	const url = `${base}/v6/deployments?projectId=${projectId}&state=${state}&target=${target}&limit=${limit}`;
-
-	try {
-		const response = await fetch(url, {
-			headers: {
-				Authorization: `Bearer ${VERCEL_TOKEN}`,
-			},
-		});
-
-		if (response.ok) {
-			return await response.json();
-		} else {
-			return null;
-		}
-	} catch {
-		return null;
-	}
-}
-
-export const load = (async ({ url }) => {
+export const load = (async () => {
 	// fetch commits from GitHub API
 	const promisedCommits = fetchGitCommits({
 		owner: 'sophiamersmann',
 		repo: 'sophiamersmann.com',
-	});
-
-	// fetch previous deployment URLs from Vercel API
-	const promisedDeployments = fetchVercelDeployments({
-		projectId: 'prj_mY89CUR6QfCPQOQuDhyxL0oHlj2C',
-		state: 'READY',
-		target: 'production',
 	});
 
 	const promisedTILs = fetchJsonFileFromGit({
@@ -143,48 +91,16 @@ export const load = (async ({ url }) => {
 		filename: 'data.json',
 	});
 
-	const [fetchedCommits, fetchedDeployments, fetchedTILs] = await Promise.all([
+	const [fetchedCommits, fetchedTILs] = await Promise.all([
 		promisedCommits,
-		promisedDeployments,
 		promisedTILs,
 	]);
 
 	const commits: Commit[] = [];
 	if (fetchedCommits != null) {
-		let currDeployment: Deployment | undefined = undefined;
-		let deploymentsByCommit: DeploymentsByCommit = new Map();
-
-		if (fetchedDeployments != null) {
-			let deployments = fetchedDeployments.deployments
-				.map((deployment: Record<string, any>) => ({
-					created: deployment.created,
-					url: deployment.url,
-					githubCommitSha: deployment.meta.githubCommitSha,
-					valid: true,
-				}))
-				.sort((a, b) => descending(a.created, b.created)) as Deployment[];
-
-			// on a preview URL the hostname IS one of the deployment URLs, so the
-			// history can be truncated to that point in time. In production the
-			// hostname is the alias and matches nothing, so everything stays valid.
-			currDeployment = deployments.find((d) => d.url === url.hostname);
-
-			if (currDeployment) {
-				deployments = deployments.map((d) => ({
-					...d,
-					valid: d.created <= (currDeployment as Deployment).created,
-				}));
-			}
-
-			deploymentsByCommit = new Map(
-				deployments.map((d) => [d.githubCommitSha, d]),
-			);
-		}
-
 		for (const c of fetchedCommits) {
 			let message = c.commit.message.split('\n')[0];
 			const shaShort = c.sha.slice(0, 7);
-			const commitCreated = new Date(c.commit.author.date).getTime();
 
 			if (
 				!BLACKLISTED_COMMITS.includes(shaShort) &&
@@ -193,21 +109,13 @@ export const load = (async ({ url }) => {
 				// remove PR number from commit message
 				message = message.replace(/(\(#\d+\))/, '').trim();
 
-				const deployment = deploymentsByCommit.get(c.sha);
-				if (
-					(WHITELISTED_COMMITS.includes(shaShort) &&
-						(!currDeployment || commitCreated <= currDeployment.created)) ||
-					(deployment && deployment.valid)
-				) {
-					commits.push({
-						sha: c.sha,
-						shaShort,
-						githubUrl: c.html_url,
-						message,
-						date: new Date(c.commit.author.date),
-						url: deployment ? 'https://' + deployment.url : null,
-					});
-				}
+				commits.push({
+					sha: c.sha,
+					shaShort,
+					githubUrl: c.html_url,
+					message,
+					date: new Date(c.commit.author.date),
+				});
 			}
 		}
 	}
