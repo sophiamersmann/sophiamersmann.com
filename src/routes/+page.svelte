@@ -3,7 +3,6 @@
 
 	import type { PageServerData } from './$types';
 
-	import CommitHistory from './CommitHistory.svelte';
 	import TextWithIcon from './TextWithIcon.svelte';
 	import ProjectSection from './ProjectSection.svelte';
 	import ProjectGrid from './ProjectGrid.svelte';
@@ -84,12 +83,6 @@
 		>.
 	</p>
 
-	{#if data.commits.length > 0}
-		<div class="commit-history-wrapper">
-			<CommitHistory commits={data.commits} />
-		</div>
-	{/if}
-
 	{#if featuredProjects.length > 0}
 		<section class="featured-projects">
 			<h2>Featured Projects</h2>
@@ -141,10 +134,6 @@
 </main>
 
 <style>
-	.commit-history-wrapper {
-		margin: 1.5em 0;
-	}
-
 	.introduction {
 		color: var(--c-gray-800);
 	}
