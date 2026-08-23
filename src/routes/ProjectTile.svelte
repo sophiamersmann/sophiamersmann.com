@@ -72,4 +72,10 @@
 	.content {
 		margin-top: 0.3em;
 	}
+
+	@media (prefers-reduced-motion: reduce) {
+		a:hover img {
+			transform: none;
+		}
+	}
 </style>

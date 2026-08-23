@@ -53,17 +53,13 @@ select {
 	font: inherit;
 }
 
-/* Remove all animations and transitions for people that prefer not to see them */
+/* Reduce motion for people that prefer it; each component opts out of its own
+   movement, so feedback like colour and press response is kept */
 @media (prefers-reduced-motion: reduce) {
 	html:focus-within {
 		scroll-behavior: auto;
 	}
-	*,
-	*::before,
-	*::after {
-		animation-duration: 0.01ms !important;
-		animation-iteration-count: 1 !important;
-		transition-duration: 0.01ms !important;
-		scroll-behavior: auto !important;
+	body {
+		scroll-behavior: auto;
 	}
 }
