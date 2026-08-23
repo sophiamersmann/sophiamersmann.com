@@ -27,13 +27,7 @@
 					</div>
 				{/if}
 
-				<span class="commit">
-					{#if commit.url}
-						<a href={commit.url} rel="noreferrer">{commit.message}</a>
-					{:else}
-						{commit.message}
-					{/if}
-				</span>
+				<span class="commit">{commit.message}</span>
 				<a
 					class="commit-sha"
 					href={commit.githubUrl}
