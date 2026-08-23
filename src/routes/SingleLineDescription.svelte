@@ -39,6 +39,29 @@
 		margin-right: var(--space-300);
 	}
 
+	/* highlighter sweep; scroll-driven where supported, else it paints in on load */
+	mark {
+		background-repeat: no-repeat;
+		animation: highlight 350ms var(--ease-out) both;
+		animation-timeline: view();
+		animation-range: cover 15% cover 40%;
+	}
+
+	@keyframes highlight {
+		from {
+			background-size: 0 100%;
+		}
+		to {
+			background-size: 100% 100%;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		mark {
+			animation: none;
+		}
+	}
+
 	mark img {
 		display: inline-block;
 		width: auto;
