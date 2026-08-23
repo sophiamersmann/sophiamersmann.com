@@ -36,8 +36,38 @@ h2 {
 	font-weight: var(--font-weight-semibold);
 	margin-top: 3em;
 	margin-bottom: 1.5em;
-	border-bottom: 1px solid var(--c-gray-200);
 	padding-bottom: var(--space-200);
+	position: relative;
+}
+
+/* section rules wipe in on scroll, echoing the award highlight sweep;
+   scroll-driven where supported, else they paint in on load */
+h2::after {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	/* -1px puts it exactly where the border-bottom used to sit: just outside
+	   the padding box, not inside it */
+	bottom: -1px;
+	height: 1px;
+	background-color: var(--c-gray-200);
+	transform-origin: left;
+	animation: rule-wipe 400ms var(--ease-out) both;
+	animation-timeline: view();
+	animation-range: cover 10% cover 35%;
+}
+
+@keyframes rule-wipe {
+	from {
+		transform: scaleX(0);
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	h2::after {
+		animation: none;
+	}
 }
 
 h3 {
