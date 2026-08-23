@@ -32,5 +32,18 @@
 		vertical-align: middle;
 		position: relative;
 		bottom: 1px;
+		transition: transform 160ms var(--ease-out);
+	}
+
+	@media (hover: hover) and (pointer: fine) {
+		a.text-with-icon:hover img {
+			transform: scale(1.05) translateY(-2px);
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		a.text-with-icon:hover img {
+			transform: none;
+		}
 	}
 </style>
